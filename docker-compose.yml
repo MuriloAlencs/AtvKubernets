@@ -43,7 +43,7 @@ services:
       - mynet
 
   postgres:
-    image: postgres
+    image: postgres:15-alpine3.18
     volumes:
       - db-data:/var/lib/postgresql/data
     environment:
