@@ -1,7 +1,6 @@
 services:
   backend:
     build: .
-    dockerfile: Dockerfile
     ports:
       - "5000"
     depends_on:
@@ -14,11 +13,9 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-    ports:
-      - "80"
-    depends_on:
-      - backend
-    restart: always
+    command: yarn build
+    volumes:
+      - ./frontend/build:/app/build
     networks:
       - mynet
 
@@ -27,6 +24,7 @@ services:
     ports:
       - "8080:80"
     volumes:
+      - ./frontend/build:/usr/share/nginx/html
       - ./nginx.conf:/etc/nginx/nginx.conf
     depends_on:
       - backend
@@ -49,6 +47,3 @@ services:
 
 volumes:
   db-data:
-
-networks:
-  mynet:
