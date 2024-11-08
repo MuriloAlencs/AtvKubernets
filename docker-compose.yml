@@ -1,7 +1,6 @@
 services:
   backend:
     build: .
-    dockerfile: Dockerfile
     ports:
       - "5000"
     depends_on:
