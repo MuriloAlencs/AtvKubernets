@@ -8,6 +8,14 @@ services:
     restart: always
     networks:
       - mynet
+    deploy:
+      replicas: 3
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 512M
+      restart_policy:
+        condition: on-failure
 
   frontend:
     build:
