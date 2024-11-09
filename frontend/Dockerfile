@@ -1,13 +1,15 @@
-# Dockerfile para o frontend
+# Dockerfile do Frontend
 FROM node:20 AS builder
 WORKDIR /app
+
+# Copia o package.json e o package-lock.json para a instalação das dependências
 COPY package*.json ./
 RUN npm install
+
+# Copia todo o código para o container
 COPY . .
+
+# Executa o build do frontend
 RUN npm run build
 
-# Nginx para servir os arquivos estáticos
-FROM nginx:alpine
-COPY --from=builder /app/build /usr/share/nginx/html
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+# O build do frontend agora é copiado para o container do Nginx através do docker-compose

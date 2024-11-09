@@ -23,12 +23,10 @@ services:
       dockerfile: Dockerfile
     networks:
       - mynet
+    depends_on:
+      - backend
     deploy:
-      replicas: 2
-      resources:
-        limits:
-          cpus: "0.3"
-          memory: 256M
+      replicas: 0 
 
   nginx:
     image: nginx:latest
@@ -39,7 +37,6 @@ services:
       - ./frontend/build:/usr/share/nginx/html:ro
     depends_on:
       - backend
-      - frontend
     restart: always
     networks:
       - mynet
