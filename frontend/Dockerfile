@@ -1,8 +1,13 @@
-FROM node:20
-WORKDIR /app/frontend
+# Dockerfile para o frontend
+FROM node:20 AS builder
+WORKDIR /app
 COPY package*.json ./
 RUN npm install
 COPY . .
-RUN npm install -g corepack && corepack enable
-EXPOSE 3000
-CMD ["yarn", "start"]
+RUN npm run build
+
+# Nginx para servir os arquivos estáticos
+FROM nginx:alpine
+COPY --from=builder /app/build /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
